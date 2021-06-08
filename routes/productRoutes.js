@@ -1,27 +1,22 @@
 const express = require("express");
-const Product = require("../models/productModel");
 const router = express.Router();
-const asyncHandler = require("express-async-handler");
+const getProducts = require("../controllers/productController");
+const getProductById = require("../controllers/productController");
+const deleteProduct = require("../controllers/productController");
+const createProduct = require("../controllers/productController");
+const updateProduct = require("../controllers/productController");
+const createProductReview = require("../controllers/productController");
+const getTopProducts = require("../controllers/productController");
+const protect = require("../middleware/authMiddleware");
+const admin = require("../middleware/authMiddleware");
 
-router.get(
-  "/",
-  asyncHandler(async (req, res) => {
-    const products = await Product.find({});
-    res.json(products);
-  })
-);
-
-router.get(
-  "/:id",
-  asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    if (product) {
-      res.json(product);
-    } else {
-      res.status(404);
-      throw new Error("Product not found");
-    }
-  })
-);
+router.route("/").get(getProducts).post(protect, admin, createProduct);
+router.route("/:id/reviews").post(protect, createProductReview);
+router.get("/top", getTopProducts);
+router
+  .route("/:id")
+  .get(getProductById)
+  .delete(protect, admin, deleteProduct)
+  .put(protect, admin, updateProduct);
 
 module.exports = router;
