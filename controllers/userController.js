@@ -3,10 +3,13 @@ const generateToken = require("../utils/generateToken");
 const User = require("../models/userModel");
 
 // @desc    Auth user & get token
-// @route   POST /api/users/login
+// @route   Get /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
+  console.log("login");
   const { email, password } = req.body;
+  console.log("email", email);
+  console.log("password", password);
 
   const user = await User.findOne({ email });
 
@@ -28,6 +31,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
+  console.log("register");
   const { name, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
@@ -61,6 +65,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
+  console.log("profile");
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -116,6 +121,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
+  console.log("delete");
   const user = await User.findById(req.params.id);
 
   if (user) {
@@ -166,11 +172,14 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = authUser;
-module.exports = registerUser;
-module.exports = getUserProfile;
-module.exports = updateUserProfile;
-module.exports = getUsers;
-module.exports = deleteUser;
-module.exports = getUserById;
-module.exports = updateUser;
+module.exports = {
+  authUser,
+  registerUser,
+  getUserProfile,
+  getUsers,
+  deleteUser,
+  updateUser,
+  updateUserProfile,
+  getUserById,
+};
+

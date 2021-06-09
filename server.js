@@ -2,8 +2,7 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const errorHandler = require("./middleware/errorMiddleware");
-const notFound = require("./middleware/errorMiddleware");
+const { errorHandler, notFound } = require("./middleware/errorMiddleware");
 const connectDB = require("./config/db");
 
 const productRoutes = require("./routes/productRoutes");

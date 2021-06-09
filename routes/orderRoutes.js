@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const addOrderItems = require("../controllers/orderController");
-const getOrderById = require("../controllers/orderController");
-const updateOrderToPaid = require("../controllers/orderController");
-const updateOrderToDelivered = require("../controllers/orderController");
-const getMyOrders = require("../controllers/orderController");
-const getOrders = require("../controllers/orderController");
-const protect = require("../middleware/authMiddleware");
-const admin = require("../middleware/authMiddleware");
+const {
+  addOrderItems,
+  getOrderById,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  getMyOrders,
+  getOrders,
+} = require("../controllers/orderController");
+
+const { protect, admin } = require("../middleware/authMiddleware");
 
 router.route("/").post(protect, addOrderItems).get(protect, admin, getOrders);
 router.route("/myorders").get(protect, getMyOrders);
